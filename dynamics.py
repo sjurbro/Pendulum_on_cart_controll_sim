@@ -41,7 +41,7 @@ def pendulum_on_cart_control(x, params, u):
     ])
 
     b = array([
-        u + m * L * omega**2 * sin(theta),
+        u - m * L * omega**2 * sin(theta),
         g * sin(theta)
     ])
 

@@ -39,7 +39,7 @@ def animate(x, params):
         y_pivot = cart_height
 
         # pendulum mass position
-        x_mass = x_pivot + L * sin(theta)
+        x_mass = x_pivot - L * sin(theta)
         y_mass = y_pivot + L * cos(theta)
 
 
