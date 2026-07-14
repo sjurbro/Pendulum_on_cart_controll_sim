@@ -5,7 +5,7 @@ from  numpy import sin, cos
 
 def animate(x, params):
     fig, ax = plt.subplots()
-    ax.set_xlim(-5, 10)
+    ax.set_xlim(-15, 15)
     ax.set_ylim(-5, 5)
     ax.grid(True)
     ax.set_aspect('equal', adjustable='box')

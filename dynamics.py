@@ -58,3 +58,49 @@ def pendulum_on_cart_control(x, params, u):
     ])
 
     return x_dot
+
+def linear_pendulum_on_cart(x, params, u):
+    m = params["m"]
+    M = params["M"]
+    g = params["g"]
+    L = params["L"]
+
+    A = array([
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, m * g / M, 0.0],
+        [0.0, 0.0, 0.0, 1.0],
+        [0.0, 0.0, (m + M) * g / (M * L), 0.0]
+    ])
+
+    B = array([
+        0.0,
+        1 / M,
+        0.0,
+        1 / (M * L)
+    ])
+
+    x_dot = A @ x + B * u
+
+    return x_dot
+
+def linear_state_space_matrices(params):
+    m = params["m"]
+    M = params["M"]
+    g = params["g"]
+    L = params["L"]
+
+    A = array([
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, m * g / M, 0.0],
+        [0.0, 0.0, 0.0, 1.0],
+        [0.0, 0.0, (m + M) * g / (M * L), 0.0],
+    ])
+
+    B = array([
+        [0.0],
+        [1.0 / M],
+        [0.0],
+        [1.0 / (M * L)],
+    ])
+
+    return A, B
