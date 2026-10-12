@@ -8,9 +8,9 @@ params = {
 }
 
 sim_config = {
-    "T": 50,
-    "dt": 0.05,
-    "x0": array([0.0, 0.0, deg2rad(25), 0.0])
+    "T": 30,
+    "dt": 0.001,
+    "x0": array([0.0, 0.0, deg2rad(179), 0.0])
 }
 
 lqr_config = {
@@ -22,4 +22,13 @@ lqr_config = {
     ]),
 
     "R": array([[1.0]])
+}
+
+swing_up_config = {
+    "k": 0.09
+}
+
+hybrid_config = {
+    "theta_threshold": deg2rad(15),
+    "omega_threshold": deg2rad(30)
 }
