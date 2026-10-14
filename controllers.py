@@ -1,6 +1,6 @@
 from numpy import array, linalg, clip, cos, sin, deg2rad
-from scipy.linalg import solve_continuous_are
-from dynamics import linear_state_space_matrices
+from scipy.linalg import solve_continuous_are, solve_discrete_are
+from dynamics import linear_state_space_matrices, discrete_linear_state_space_matrices
 
 def zero_controller(t, x, params):
     """Apply zero control input."""
@@ -14,7 +14,7 @@ class LQRController:
         Q = lqr_config["Q"]
         R = lqr_config["R"]
 
-        A, B = linear_state_space_matrices(params)
+        A, B, _, _ = linear_state_space_matrices(params)
 
         P = solve_continuous_are(A, B, Q, R)
         self.K = linalg.solve(R, B.T @ P)
@@ -23,6 +23,32 @@ class LQRController:
         u_unsaturated = -(self.K @ x).item()
 
         return u_unsaturated
+
+class LQRController_discrete:
+    """State-feedback controller based on discrete-time LQR."""
+
+    def __init__(self, params, lqr_config, sim_config):
+        Q = lqr_config["Q"]
+        R = lqr_config["R"]
+        Ts = sim_config["Ts"]
+
+
+        Ad, Bd, Cd, Dd = discrete_linear_state_space_matrices(params, Ts)
+
+        P = solve_discrete_are(Ad, Bd, Q, R)
+
+        self.K = linalg.solve(
+            R + Bd.T @ P @ Bd,
+            Bd.T @ P @ Ad
+        )
+
+    def __call__(self, t, x, params):
+        u = - (self.K @ x).item()
+        return u
+
+
+
+        
 
 
 class SwingUpController:

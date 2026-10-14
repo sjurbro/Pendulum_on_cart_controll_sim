@@ -1,4 +1,5 @@
 from numpy import sin, cos, array, linalg
+from scipy.signal import cont2discrete
 
 
 def pendulum_on_cart(x, params, u):
@@ -53,4 +54,24 @@ def linear_state_space_matrices(params):
         [1.0 / (M * L)],
     ])
 
-    return A, B
+    C = array([
+        [1.0, 0.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, 0.0]
+    ])
+
+    D = array([
+        [0.0],
+        [0.0]
+    ])
+
+    return A, B, C, D
+
+
+def discrete_linear_state_space_matrices(params, Ts):
+    """Return the discrete state-space matrices linearized about the upright equilibrium."""
+
+    A, B, C, D = linear_state_space_matrices(params)
+
+    Ad, Bd, Cd, Dd, _ = cont2discrete((A, B, C, D), Ts, method='zoh')
+
+    return Ad, Bd, Cd, Dd
