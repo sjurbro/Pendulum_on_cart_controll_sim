@@ -1,3 +1,6 @@
+SIM = "discrete"
+
+
 from config import (
     params,
     sim_config,
@@ -8,9 +11,9 @@ from config import (
 
 from dynamics import pendulum_on_cart
 from integrators import rk4
-from simulate import simulate
+from simulate import simulate, simulate_discrete
 from animation import animate
-from plotting import plot_easy
+from plotting import plot_states, plot_control, plot_simulation
 
 from controllers import (
     LQRController,
@@ -33,24 +36,36 @@ hybrid = HybridController(
     hybrid_config
 )
 
-"""
-# Run simulation
-t, x, u = simulate(
-    system=pendulum_on_cart,
-    integrator=rk4,
-    x0=sim_config["x0"],
-    dt=sim_config["dt"],
-    T=sim_config["T"],
-    params=params,
-    controller=hybrid
-)
+if SIM == "continous":
+    # Run simulation
+    t, x, u = simulate(
+        system=pendulum_on_cart,
+        integrator=rk4,
+        x0=sim_config["x0"],
+        dt=sim_config["dt"],
+        T=sim_config["T"],
+        params=params,
+        controller=hybrid
+    )
 
 
-# Visualize results
-animate(x, params)
-plot_easy(t, x)
+    # Visualize results
+    animate(x, params)
+    plot_easy(t, x)
 
-"""
+elif SIM == "discrete":
+    # run discrete simulation
+    t, x, u = simulate_discrete(
+        system=pendulum_on_cart,
+        integrator=rk4,
+        controller=lqr_discrete,
+        sim_config=sim_config,
+        params=params
+    )
+
+    animate(x, params)
+    plot_control(t, u)
+
 """
 for Ts in [0.1, 0.01, 0.001, 0.0001]:
     controller = LQRController_discrete(

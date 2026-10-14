@@ -11,7 +11,7 @@ sim_config = {
     "T": 30,
     "dt": 0.001,
     "Ts": 0.01,
-    "x0": array([0.0, 0.0, deg2rad(179), 0.0])
+    "x0": array([0.0, 0.0, deg2rad(30), 0.0])
 }
 
 lqr_config = {
