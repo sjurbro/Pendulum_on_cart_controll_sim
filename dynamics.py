@@ -67,10 +67,12 @@ def linear_state_space_matrices(params):
     return A, B, C, D
 
 
-def discrete_linear_state_space_matrices(params, Ts):
+def discrete_linear_state_space_matrices(params, sim_config):
     """Return the discrete state-space matrices linearized about the upright equilibrium."""
 
     A, B, C, D = linear_state_space_matrices(params)
+
+    Ts = sim_config["Ts"]
 
     Ad, Bd, Cd, Dd, _ = cont2discrete((A, B, C, D), Ts, method='zoh')
 

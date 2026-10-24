@@ -33,7 +33,7 @@ class LQRController_discrete:
         Ts = sim_config["Ts"]
 
 
-        Ad, Bd, Cd, Dd = discrete_linear_state_space_matrices(params, Ts)
+        Ad, Bd, Cd, Dd = discrete_linear_state_space_matrices(params, sim_config)
 
         P = solve_discrete_are(Ad, Bd, Q, R)
 

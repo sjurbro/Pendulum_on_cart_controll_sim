@@ -75,3 +75,52 @@ def plot_simulation(t, x, u_history):
 
     plt.tight_layout()
     plt.show()
+
+def plot_measurements(t, x_true, y):
+    """Compare noisy sensor measurements with true states."""
+
+    fig, axes = plt.subplots(2, 1, figsize=(11, 7), sharex=True)
+
+    # Cart position
+    axes[0].plot(t, x_true[:, 0], label="True position")
+    axes[0].plot(t, y[:, 0], ".", markersize=2,
+                 alpha=0.4, label="Measured position")
+
+    axes[0].set_ylabel("Position [m]")
+    axes[0].legend()
+    axes[0].grid(True)
+
+    # Pendulum angle
+    axes[1].plot(t, np.rad2deg(x_true[:, 2]),
+                 label="True angle")
+
+    axes[1].plot(t, np.rad2deg(y[:, 1]), ".",
+                 markersize=2, alpha=0.4,
+                 label="Measured angle")
+
+    axes[1].set_ylabel("Angle [deg]")
+    axes[1].set_xlabel("Time [s]")
+    axes[1].legend()
+    axes[1].grid(True)
+
+    plt.tight_layout()
+    plt.show()
+
+import matplotlib.pyplot as plt
+
+def plot_estimation_comparison(t, x, x_hat):
+    fig, axes = plt.subplots(4, 1, figsize=(10, 10), sharex=True)
+    
+    labels = ["Posisjon (p)", "Vognhastighet (v)", "Vinkel (theta)", "Vinkelhastighet (omega)"]
+    
+    for i in range(4):
+        axes[i].plot(t, x[:, i], label='Sann verdi (x)', color='black', alpha=0.7)
+        axes[i].plot(t, x_hat[:, i], label='Kalman-estimat (x_hat)', color='red', linestyle='--', alpha=0.9)
+        axes[i].set_ylabel(labels[i])
+        axes[i].legend(loc='upper right')
+        axes[i].grid(True)
+        
+    axes[-1].set_xlabel('Tid [s]')
+    plt.suptitle('Sammenligning av sann tilstand vs. Kalman-filter estimat')
+    plt.tight_layout()
+    plt.show()
